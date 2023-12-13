@@ -1,4 +1,5 @@
 import './App.css';
+import './index.css'
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Details from './pages/Details';
@@ -11,7 +12,7 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen'>
       <Navbar/>
-      <div className='flex-grow'>
+      <div>
       <Routes >
         <Route path='/'element={<Home/>}/>
         <Route path='/details' element={<Details/>}/>
