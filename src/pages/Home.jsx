@@ -10,7 +10,7 @@ const Home = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://654bc6c15b38a59f28efb3a2.mockapi.io/products');
+        const response = await fetch('https://652bdb87d0d1df5273eecf72.mockapi.io/services');
         const products = await response.json();
         setProducts(products);
       } catch (error) {
@@ -36,7 +36,7 @@ const Home = () => {
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-content-center'>
       {products ? (
         products.map(product => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))
       ) : (
         <div>No products available</div>
