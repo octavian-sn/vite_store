@@ -11,7 +11,13 @@ const Admin = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [products, setProducts] = useState(null);
+	const [currentProductId, setCurrentProductId] = useState(null);
 
+	const clearForm = ()=>{
+		setProduct({name:'', price:'', description:'', imageURL:''})
+	}
+
+	
 	useEffect(() => {
 		const fetchData = async () => {
 			setLoading(true);
@@ -28,17 +34,55 @@ const Admin = () => {
 		fetchData();
 	}, []);
 
-	const addNewProduct = (e) => {
+	const addNewProduct = async (e) => {
+		console.log('Added!')
+		if(product.name !== '' && product.price !== ''){
+			e.preventDefault();
+			const url = 'https://652bdb87d0d1df5273eecf72.mockapi.io/services';
+			const options = {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(product),
+			};
+			const response = await fetch(url, options);
+			if (response.ok) {
+				try {
+				  const updatedResponse = await fetch('https://652bdb87d0d1df5273eecf72.mockapi.io/services');
+				  const updatedProducts = await updatedResponse.json();
+				  setProducts(updatedProducts);
+				  clearForm();
+				} catch (error) {
+				  setError(error.message);
+				}
+			}
+		}
+	}
+
+	const updateProduct = async (e) =>{
 		e.preventDefault();
-		const url = 'https://652bdb87d0d1df5273eecf72.mockapi.io/services';
+		const url = `https://652bdb87d0d1df5273eecf72.mockapi.io/services/${currentProductId}`;
 		const options = {
-			method: 'POST',
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(product),
 		};
-		fetch(url, options);
+		const response = await fetch(url, options);
+		if (response.ok) {
+			const updatedProductList = [...products];
+		
+			const index = updatedProductList.findIndex((item) => item.id === currentProductId);
+		
+			updatedProductList[index] = product;
+		
+			setProducts(updatedProductList);
+		
+			setCurrentProductId(null);
+			clearForm();
+		  }
 	}
 
 	const deleteProduct = async (id) => {
@@ -83,30 +127,34 @@ const Admin = () => {
 					<input onChange={e => {
 						const name = e.target.value;
 						setProduct({ ...product, name })
-					}} type="text" id="name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+					}}
+						value={product.name} type="text" id="name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
 				</div>
 				<div className="mb-5">
 					<label htmlFor="image" className="block mb-1 text-bg font-medium text-gray-900 dark:text-white">Image URL</label>
 					<input onChange={e => {
 						const imageURL = e.target.value;
 						setProduct({ ...product, imageURL })
-					}} type='text' id="image" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+					}}
+						value={product.imageURL} type='text' id="image" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
 				</div>
 				<div className="mb-5">
 					<label htmlFor="price" className="block mb-1 text-bg font-medium text-gray-900 dark:text-white">Price</label>
 					<input onChange={e => {
 						const price = e.target.value;
 						setProduct({ ...product, price })
-					}} type='text' id="price" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+					}}
+						value={product.price} type='text' id="price" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
 				</div>
 				<div className="mb-5">
 					<label htmlFor="description" className="block mb-1 text-bg font-medium text-gray-900 dark:text-white">Description</label>
 					<textarea onChange={e => {
 						const description = e.target.value;
 						setProduct({ ...product, description })
-					}} type='text' id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+					}}
+						value={product.description} type='text' id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
 				</div>
-				<button onClick={addNewProduct} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add new product</button>
+				<button onClick={currentProductId ? updateProduct : addNewProduct} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
 			</form>
 
 			{products &&
@@ -150,10 +198,20 @@ const Admin = () => {
 										{product.description}
 									</td>
 									<td >
-										<button id={product.id} className="font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+										<button
+											id={product.id}
+											onClick={e=>{
+												setCurrentProductId(e.target.id);
+												const productToBeEdited = products.find(product=> product.id === e.target.id);
+												setProduct(productToBeEdited);
+											}}
+											className="font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
 									</td>
 									<td className="pr-4">
-										<button id={product.id} onClick={e => deleteProduct(e.target.id)} className="font-bold text-red-700 dark:text-red-500 hover:underline">Delete</button>
+										<button
+											id={product.id}
+											onClick={e => deleteProduct(e.target.id)}
+											className="font-bold text-red-700 dark:text-red-500 hover:underline">Delete</button>
 									</td>
 								</tr>
 							))}
