@@ -13,7 +13,7 @@ const ProductCard = (props) => {
         </a>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
-            <span className="text-3xl font-bold text-slate-900">${props.product.price / 2} </span>
+            <span className="text-3xl font-bold text-slate-900">${(props.product.price / 2).toFixed(2)} </span>
             <span className="text-sm text-slate-900 line-through">${props.product.price}</span>
           </p>
         </div>
