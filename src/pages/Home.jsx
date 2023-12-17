@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/Products/ProductCard';
+import { Triangle } from 'react-loader-spinner';
 
 const Home = () => {
   const [products, setProducts] = useState(null);
@@ -17,14 +18,23 @@ const Home = () => {
         setError(error.message);
       }
       setLoading(false);
-      console.log(products)
     };
 
     fetchData();
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Triangle
+        height="180"
+        width="180"
+        color="#0f0f0f"
+        ariaLabel="triangle-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />
+    );
   }
 
   if (error) {
@@ -34,13 +44,13 @@ const Home = () => {
   return (
     <div className='max-w-screen-xl container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex justify-center'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-content-center'>
-      {products ? (
-        products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      ) : (
-        <div>No products available</div>
-      )}
+        {products ? (
+          products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <div>No products available</div>
+        )}
       </div>
     </div>
   );

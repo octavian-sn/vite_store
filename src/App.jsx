@@ -12,8 +12,8 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen'>
       <Navbar/>
-      <div>
-      <Routes >
+      <div className='flex-grow flex justify-center items-center h-full'>
+      <Routes>
         <Route path='/'element={<Home/>}/>
         <Route path='/details' element={<Details/>}/>
         <Route path='/cart' element={<Cart/>}/>
