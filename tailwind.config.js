@@ -6,6 +6,9 @@ export default {
 	],
 	theme: {
 	  extend: {},
+	  fontFamily: {
+		serif: ['Bodoni Moda', 'serif'],
+	  },
 	},
 	plugins: [],
   }
