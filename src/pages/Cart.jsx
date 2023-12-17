@@ -109,7 +109,7 @@ const Cart = () => {
                       products && productsInCart.map(productInCart => {
                         const product = getProductById(productInCart.id);
                         return (
-                          <tr>
+                          <tr key={productInCart.id}>
                             <td className="py-4">
                               <div className="flex items-center">
                                 <img className="h-16 w-16 mr-4" src={product.imageURL} alt="Product image" />
