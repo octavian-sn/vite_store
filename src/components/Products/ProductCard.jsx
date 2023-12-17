@@ -4,7 +4,7 @@ const ProductCard = (props) => {
   
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md
-    hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-0.5 hover:scale-101">
+    hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-0.5">
       <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" >
         <img className="object-cover" src={props.product.imageURL} alt="product image" />
         <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">50% OFF</span>

@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="md:ml-10 mb-6 md:mb-0 flex justify-center align-center">
             <a href="https://github.com/Sulic-Maria" className="flex items-center">
               <img src="https://i.ibb.co/1vHZ7J8/web-developer.png" className="h-20 " alt="FlowBite Logo" />
-              <span className="font-serif text-3xl font-light whitespace-nowrap dark:text-white">aria Sulic</span>
+              <span className="font-serif text-3xl font-light whitespace-nowrap dark:text-white">aria Şulic</span>
             </a>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
