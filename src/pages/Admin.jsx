@@ -41,6 +41,21 @@ const Admin = () => {
 		fetch(url, options);
 	}
 
+	const deleteProduct = async (id) => {
+		const url = `https://652bdb87d0d1df5273eecf72.mockapi.io/services/${id}`;
+		const options = {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		const response = await fetch(url, options);
+		if (response.ok) {
+			const updatedProducts = products.filter((product) => product.id != id);
+			setProducts(updatedProducts);
+		}
+	};
+
 	if (loading) {
 		return (
 			<Triangle
@@ -135,10 +150,10 @@ const Admin = () => {
 										{product.description}
 									</td>
 									<td >
-										<button className="font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+										<button id={product.id} className="font-bold text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
 									</td>
 									<td className="pr-4">
-										<button  className="font-bold text-red-700 dark:text-red-500 hover:underline">Delete</button>
+										<button id={product.id} onClick={e => deleteProduct(e.target.id)} className="font-bold text-red-700 dark:text-red-500 hover:underline">Delete</button>
 									</td>
 								</tr>
 							))}
