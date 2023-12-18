@@ -8,6 +8,7 @@ const Cart = () => {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [totalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +25,24 @@ const Cart = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    updateTotalCost();
+  }, [productsInCart, products]);
+  
+
+  const updateTotalCost = () => {
+    if (products && productsInCart) {
+      let total = 0;
+      productsInCart.forEach((productInCart) => {
+        const product = products.find((product) => product.id === productInCart.id);
+        if (product) {
+          total += product.price * productInCart.qt;
+        }
+      });
+      setTotalCost(total);
+    }
+  };
 
   const getProductById = (id) => {
     const product = products.find((product) => product.id === id);
@@ -147,20 +166,20 @@ const Cart = () => {
               <h2 className="text-lg font-semibold mb-4">Summary</h2>
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>$0.00</span>
+                <span>${totalCost}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Taxes</span>
-                <span>$0.00</span>
+                <span>${(0.19 * totalCost).toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
-                <span>$0.00</span>
+                <span>${(0.01 * totalCost).toFixed(2)}</span>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between mb-2">
                 <span className="font-semibold">Total</span>
-                <span className="font-semibold">$0.00</span>
+                <span className="font-semibold">${((0.19 * totalCost + 0.01 * totalCost) + totalCost).toFixed(2)}</span>
               </div>
               <button className="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
             </div>
