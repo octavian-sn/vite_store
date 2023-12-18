@@ -38,13 +38,11 @@ const Cart = () => {
 
 		switch (action) {
 			case 'decrease':
-				if (currentProduct.qt > 1) currentProduct.qt = currentProduct.qt - 1;
+        if (currentProduct.qt === 1) productsInCart.splice(indexOfProductToBeDeleted, 1);
+				else currentProduct.qt = currentProduct.qt - 1;
 				break;
 			case 'increase':
 				currentProduct.qt = currentProduct.qt + 1;
-				break;
-			case 'delete':
-				productsInCart.splice(indexOfProductToBeDeleted, 1);
 				break;
 		}
 
@@ -89,7 +87,7 @@ const Cart = () => {
 
   return (
     <div className="w-full py-8">
-      <div className="container mx-auto px-4">
+      <div className="xl:max-w-screen-xl container mx-auto px-4">
         <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="md:w-3/4">
